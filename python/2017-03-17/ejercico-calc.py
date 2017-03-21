@@ -5,6 +5,9 @@
 ## Importem la llibreria de les funcions del sistema
 import os
 
+## Importem la llibreria per calcular l'arrel quadrada
+import math
+
 # Funcions #
 
 ## Sumar
@@ -56,6 +59,48 @@ def multiplicar(nombres):
         resultat = resultat * i
 
     # Retornem el resultat
+    return resultat
+
+## Dividir
+def dividir(tipus, nombres):
+
+    # Definim la variable de resultat final al primer nombre
+    resultat = nombres[0]
+
+    # Esborrem el primer nombre perquè ja l'hem assignat a la variable resultat
+    del nombres[0]
+
+    # Si volem dividir amb decimals
+    if tipus == 1:
+
+        # Dividim el resultat final amb el primer nombre (el divisor)
+        resultat = resultat / nombres[0]
+
+    # Si volem dividir amb residu
+    else:
+
+        # Dividim el resultat final amb el primer nombre (el divisor)
+        coeficient = resultat // nombres[0]
+
+        # Calculem el residu
+        residu = resultat % coeficient
+
+        # Assignem el resultat a la variable resultat
+        resultat = str(int(coeficient)) + ", R: " + str(int(residu))
+
+    # Retornem el resultat
+    return resultat
+
+## Arrel Quadrada
+def arrel(num):
+
+    # Calculem l'arrel quadrada
+    resultat = math.sqrt(num)
+
+    # Assignem el resultat real a la variable resultat
+    resultat = str(resultat) + ", " + str(-resultat)
+
+    # Retornem
     return resultat
 
 # Assignem el valor False a la variable 'soritr'
@@ -125,7 +170,7 @@ while (sortir == False):
     elif (operacio == '2'):
 
         # Esperem a que l'usuari introdueixi el total de nombres que volem restar
-        quantitat = input('Quants nombres vols restar? Tingues en compte de que es restaran en ordre')
+        quantitat = input('Quants nombres vols restar? Tingues en compte de que es restaran en ordre: ')
 
         # Definim l'array dels nombres per restar
         nombres = []
@@ -192,7 +237,7 @@ while (sortir == False):
         # Netejem la pantalla
         os.system('clear')
 
-        # Cridem a la funció de multiplicar perquè ens sumi els nombres
+        # Cridem a la funció de multiplicar perquè ens multipliqui els nombres
         print "El resultat de " + nombres_string + " és: " + str(multiplicar(nombres))
 
         # Mostrem un espai
@@ -203,15 +248,102 @@ while (sortir == False):
 
     # Si vol dividir en decimals
     elif (operacio == '4'):
-        print 'Dividir (decimals)'
+
+        # Només es poten dividir dos nombres alhora
+        quantitat = 2
+
+        # Definim l'array dels nombres per dividir
+        nombres = []
+
+        # Definim l'string dels nombres per dividir
+        nombres_string = ""
+
+        # Loop per cada nombre que hem de dividir
+        for i in range(1, (quantitat + 1)):
+
+            # Esperem a l'usuari que introdueixi el nombre
+            nombre = input("Quin és el número " + str(i) + ": ")
+
+            # Afegim el nombre a l'array de nombres
+            nombres.append(float(nombre))
+
+            # Afegim el nombre a l'string de nombres
+            nombres_string = nombres_string + str(nombre) + " / "
+
+
+        # Esborrem l'ultim "*" de l'string nombres_string
+        nombres_string = nombres_string[:-2]
+
+        # Netejem la pantalla
+        os.system('clear')
+
+        # Cridem a la funció de multiplicar perquè ens multipliqui els nombres
+        print "El resultat de " + nombres_string + " és: " + str(dividir(1, nombres))
+
+        # Mostrem un espai
+        print
+
+        # Esperem a que l'usuari prémi una tecla per a continuar
+        raw_input('Prém una tecla per a continuar...')
 
     # Si vol dividir amb residu
     elif (operacio == '5'):
-        print 'Dividir (residu)'
+
+        # Només es poten dividir dos nombres alhora
+        quantitat = 2
+
+        # Definim l'array dels nombres per dividir
+        nombres = []
+
+        # Definim l'string dels nombres per dividir
+        nombres_string = ""
+
+        # Loop per cada nombre que hem de dividir
+        for i in range(1, (quantitat + 1)):
+
+            # Esperem a l'usuari que introdueixi el nombre
+            nombre = input("Quin és el número " + str(i) + ": ")
+
+            # Afegim el nombre a l'array de nombres
+            nombres.append(float(nombre))
+
+            # Afegim el nombre a l'string de nombres
+            nombres_string = nombres_string + str(nombre) + " / "
+
+
+        # Esborrem l'ultim "*" de l'string nombres_string
+        nombres_string = nombres_string[:-2]
+
+        # Netejem la pantalla
+        os.system('clear')
+
+        # Cridem a la funció de multiplicar perquè ens multipliqui els nombres
+        print "El resultat de " + nombres_string + " és: " + dividir(2, nombres)
+
+        # Mostrem un espai
+        print
+
+        # Esperem a que l'usuari prémi una tecla per a continuar
+        raw_input('Prém una tecla per a continuar...')
 
     # Si vol fer una arrel quadrada
     elif (operacio == '6'):
-        print 'Arrel Quadrada'
+
+        # Esperem a que l'usuari ens introdueixi el nombre
+        # Esperem a l'usuari que introdueixi el nombre
+        nombre = input("Quin és el número? ")
+
+        # Netejem la pantalla
+        os.system('clear')
+
+        # Cridem a la funció de multiplicar perquè ens multipliqui els nombres
+        print "El resultat de √" + str(nombre) + " és: " + arrel(nombre)
+
+        # Mostrem un espai
+        print
+
+        # Esperem a que l'usuari prémi una tecla per a continuar
+        raw_input('Prém una tecla per a continuar...')
 
     # Si vol sortir
     elif ((operacio == 'S') or (operacio == 's')):
