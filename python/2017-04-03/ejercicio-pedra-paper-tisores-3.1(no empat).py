@@ -40,7 +40,7 @@ while (sortir == False):
         sortir = True
 
     num = num + 1
---
+
 print "-----------------"
 print "- ESTADÍSTIQUES -"
 print "-----------------"
