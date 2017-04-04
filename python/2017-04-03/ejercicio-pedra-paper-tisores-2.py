@@ -10,7 +10,7 @@ while (sortir == False):
 
     # Player 1
     if (player1 == 0) or (player1 == 1):
-        player1 == "tisores"
+        player1 = "tisores"
     elif (player1 == 2) or (player1 == 3) or (player1 == 6):
         player1 = "pedra"
     elif (player1 == 4) or (player1 == 5):
