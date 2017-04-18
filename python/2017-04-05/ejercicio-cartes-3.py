@@ -54,9 +54,6 @@ while (sortir == False):
 
 			heapostat = True
 
-	mpal = randint(1, 4)
-	mcarta = randint(2, 14)
-
 	sortirjugador = False
 
 	while (sortirjugador == False):
