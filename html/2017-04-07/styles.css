@@ -1,0 +1,26 @@
+a {
+    display: inline-block;
+}
+
+/* Link 'amb estils' */
+.styled, .styled:active, .styled:focus, .styled:visited {
+    text-decoration: none;
+    color: green;
+}
+.styled:hover {
+    text-decoration: underline;
+    color: blue;
+}
+
+/* Link 'Botó' */
+.button, .button:active, .button:focus, .button:visited {
+    text-decoration: none;
+    background: red;
+    padding: 25px;
+    color: #fff;
+}
+.button:hover {
+    background: green;
+    color: blue;
+    text-decoration: underline;
+}
