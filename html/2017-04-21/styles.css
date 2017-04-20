@@ -1,0 +1,34 @@
+/* Tots els elements (normalize)*/
+* {
+    font-family: Helvetica;
+    text-decoration: none;
+}
+
+/* Perquè les imatges no es posin a sobre dels links */
+a {
+    display: inline-block;
+}
+/* Quan fas 'hover' al link, que es subratlli */
+a:hover {
+    text-decoration: underline;
+}
+
+/* Link amb forma de botó */
+a.boto {
+    padding: 25px;
+    background-color: #8e44ad;
+    color: #ecf0f1;
+}
+a.boto:hover {
+    background-color: #9b59b6;
+}
+
+/* Negreta */
+.bold {
+    font-weight: 700;
+}
+
+/* Taula */
+table, td, th {
+    border: 1px solid #000;
+}
