@@ -2,6 +2,30 @@
 
 # Treballarem amb str perquè hi hagin els zeros correctes
 
+# Taula
+def PrettyPrint(table, justify = "L", columnWidth = 0):
+    # Not enforced but
+    # if provided columnWidth must be greater than max column width in table!
+    if columnWidth == 0:
+        # find max column width
+        for row in table:
+            for col in row:
+                width = len(str(col))
+                if width > columnWidth:
+                    columnWidth = width
+
+    outputStr = ""
+    for row in table:
+        rowList = []
+        for col in row:
+            if justify == "R": # justify right
+                rowList.append(str(col).rjust(columnWidth))
+            elif justify == "L": # justify left
+                rowList.append(str(col).ljust(columnWidth))
+            elif justify == "C": # justify center
+                rowList.append(str(col).center(columnWidth))
+        outputStr += ' '.join(rowList) + "\n"
+    return outputStr
 # Canvi a binari
 def nombreBinari(nombre):
 
@@ -60,7 +84,6 @@ def nombreDecimal(nombre):
     # Retornem el nombre en decimal
     return nombreDecimal
 
-
 # Canviem la ip de xarxa i la màscara de xarxa a binari
 def ipMascaraXarxaBinari(ip, mascara):
 
@@ -116,16 +139,18 @@ def bitsHost(mascara):
 # Calculem la direcció de broadcast
 def ipBroadcast(xarxa, mascara):
 
+    ipBinari, mascaraBinari = ipMascaraXarxaBinari(xarxa, mascara)
+
     # Mirem quants bits de host hi ha
-    bitsHostNum = bitsHost(mascara)
+    bitsHostNum = bitsHost(mascaraBinari)
 
     # Generem els uns necessaris per transformar la ip de xarxa a una ip de broadcast
     bitsBroadcast = ''
     for i in xrange(0,bitsHostNum):
         bitsBroadcast = bitsBroadcast + '1'
 
-    # Ajuntem tota la màscara en un sol string
-    ip = ''.join(xarxa)
+    # Ajuntem tota la ip de xarxa en un sol string
+    ip = ''.join(ipBinari)
 
     # Canviem els últims bits de la ip a uns per transformar-ho a la ip de broadcast
     ip = ip[:-bitsHostNum] + bitsBroadcast
@@ -152,15 +177,17 @@ def ipBroadcast(xarxa, mascara):
             octet = ''
 
 
+    # Inicialitzem la variable ipBroadcast
+    ipBroadcast = ''
 
     # Transformem la ip a decimal
     for i in ipBroadcastBinari:
 
         # Transformem l'octet a decimal i l'afegim al resultat final
-        ipBroadcast = str(nombreDecimal(i)) + '.'
+        ipBroadcast = ipBroadcast + str(nombreDecimal(i)) + '.'
 
-    # Retornem la ipBroadcast
-    return ipBroadcast
+    # Retornem la ipBroadcast sense el punt final
+    return ipBroadcast[:-1]
 
 # Mapejem la xarxa
 def mapejarXarxa(ipXarxa, mascaraXarxa):
@@ -168,24 +195,51 @@ def mapejarXarxa(ipXarxa, mascaraXarxa):
     # Convertim les ip a binari
     ipXarxaBinari, mascaraXarxaBinari = ipMascaraXarxaBinari(ipXarxa, mascaraXarxa)
 
-    print ipXarxaBinari
+    # Assignem la ip de Broadcast
+    ipBroadcastFinal = ipBroadcast(ipXarxa, mascaraXarxa)
 
     # Agafem l'últim caràcter de la ip de xarxa, li sumem 1 i ho ajuntem a la ip sencera sense la part modificada
-    primeraHostUtil = ipXarxa[:(len(ipXarxa)) - 1] + str(int(ipXarxa[-1]) + 1)
+    primeraHostUtil = '.'.join(ipXarxa.split('.')[:-1]) + '.' + str(int(ipXarxa.split('.')[-1]) + 1)
 
-    #
+    # Agafem l'últim caràcter de la ip de xarxa, li restem 1 i ho ajuntem a la ip sencera sense la part modificada
+    ultimaHostUtil = '.'.join(ipBroadcastFinal.split('.')[:-1]) + '.' + str(int(ipBroadcastFinal.split('.')[-1]) - 1)
 
     # Mirem quants bits de host hi ha, elevem 2 a aquest nombre i li restem 2 (la direcció de xarxa i de broadcast)
     hostsUtils = str(2 ** int(bitsHost(mascaraXarxaBinari)) - 2)
 
+    # Retornem tota la informació de la subxarxa específica
+    return [hostsUtils, ipXarxa, primeraHostUtil, ultimaHostUtil, ipBroadcastFinal]
 
+def mapejarTotesLesSubxarxes(ipXarxa, mascaraXarxa):
 
-    print "Ip xarxa: " + ipXarxa
-    print "Ip broadcast: " + ipBroadcast(ipXarxa, mascaraXarxa)
-    print "Primera direcció de hosts útil: " + primeraHostUtil
-    print "Última direcció de hosts útil: "
-    print "Hosts útils: " + hostsUtils
+    # Inicialitzem la variable subxarxes a una llista buida
+    subxarxes = []
 
+    # Afegim la capçalera de la Taula
+    subxarxes.append(['#', 'Hosts útils', 'Ip de Xarxa', 'Primera Ip Útil', 'Última Ip Útil', 'Ip de Broadcast'])
+    subxarxes.append(['---', '-----------', '---------------', '---------------', '---------------', '---------------'])
 
+    # Inicialitzem la variable de count de subxarxes a 0
+    count = 0
 
-mapejarXarxa('192.168.1.0', '255.255.255.0')
+    # Calculem quantes adreçes (útils i no útils) hi ha a la subxarxa
+    ipBinari, mascaraBinari = ipMascaraXarxaBinari(ipXarxa, mascaraXarxa)
+    bitsHostTotal = bitsHost(mascaraBinari)
+
+    # Mentres que no s'hagi arribat al final de la xarxa
+    while (count <= 16):
+
+        # Afegim la subxarxa a la llista de subxarxes
+        subxarxa = mapejarXarxa(ipXarxa, mascaraXarxa)
+        subxarxa.insert(0, count)
+        subxarxes.append(subxarxa)
+
+        # Augmentem la ip de xarxa
+        ipXarxa = '.'.join(ipXarxa.split('.')[:-1]) + '.' + str(count * ( 2 ** bitsHost(mascaraBinari)))
+
+        # Augmentem el count
+        count = count + 1
+
+    return subxarxes
+
+print PrettyPrint(mapejarTotesLesSubxarxes('192.168.1.0', '255.255.255.240'))
