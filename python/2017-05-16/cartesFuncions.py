@@ -176,8 +176,8 @@ def mostrarEstadistiques(estadistiques, totalPartides):
     print
     print "S'han jugat " + str(totalPartides) + " partides"
     print "Hi han hagut " + str(estadistiques[3]) + " empats"
-    print "El Jugador ha guanyat un " + str((estadistiques[1] * 100) / estadistiques[0]) + "% de les partides (" + str(estadistiques[1]) + ")"
-    print "La màquina ha guanyat un " + str((estadistiques[2] * 100) / estadistiques[0]) + "% de les partides (" + str(estadistiques[2]) + ")"
+    print "El Jugador ha guanyat un " + str(round(((float(estadistiques[1]) * 100) / float(estadistiques[0])), 2)) + "% de les partides (" + str(estadistiques[1]) + ")"
+    print "La màquina ha guanyat un " + str(round(((float(estadistiques[2]) * 100) / float(estadistiques[0])), 2)) + "% de les partides (" + str(estadistiques[2]) + ")"
 
 # Esborrem la pantalla
 os.system('clear')
